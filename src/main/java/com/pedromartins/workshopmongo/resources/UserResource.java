@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.pedromartins.workshopmongo.domain.Post;
 import com.pedromartins.workshopmongo.domain.User;
 import com.pedromartins.workshopmongo.dto.UserDTO;
 import com.pedromartins.workshopmongo.services.UserService;
@@ -60,5 +61,11 @@ public class UserResource {
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping(value = "/{id}/posts")
+	public ResponseEntity<List<Post>> findPosts(@PathVariable String id) {
+		User obj = service.findById(id);
+		return ResponseEntity.ok().body(obj.getPosts()); //O endpoint chama o recurso lazy da lista de posts
 	}
 }
